@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/satyajitghana/canary-argocd-kserve.git
+    repoURL: https://github.com/ajithvcoder/emlo4-session-17-ajithvcoder-canary-argocd-kserve.git
     targetRevision: HEAD
     path: model-deployments
   destination:
