@@ -15,7 +15,7 @@ spec:
     serviceAccountName: s3-read-only
     pytorch:
       protocolVersion: v1
-      storageUri: s3://mybucket-emlo-mumbai/kserve-ig/food-classifier/
+      storageUri: s3://mybucket-emlo-mumbai/kserve-ig/dog-classifier/
       # storageUri: s3://tsai-emlo/kserve-ig/fakeimagenet-vit/
       image: pytorch/torchserve-kfs:0.12.0
       resources:
