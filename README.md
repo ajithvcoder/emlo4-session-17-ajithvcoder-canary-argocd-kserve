@@ -1,20 +1,12 @@
-# Canary ArgoCD KServe
+### EMLOV4-Session-17 Assignment - Canary Deployment
 
-This example deploys a canary deployment with ArgoCD and KServe.
+Deploy three imagenet Hugging face modes with AWS EKS service in canary deployment method with Serving tools like KServe, with deployment tools like argoCD and with monitoring tools like prometheus, grafana.
 
-Create an Argo App
+Note: Please refer [Assignment-17 repo](https://github.com/ajithvcoder/emlo4-session-17-ajithvcoder) - `https://github.com/ajithvcoder/emlo4-session-17-ajithvcoder` for instructions to develop and deploy from scratch
 
-```bash
-kubectl apply -f argo-apps
+- Have s3-secret.yaml file in argo-apps/s3-secret.yaml folder and update it with your AWS credentails i.e `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+
 ```
-
-This will deploy the example model deployments
-
-NOTE: The Models require an s3-read-only Service Account required to download models from S3
-
-Make sure to create one
-
-```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -26,8 +18,8 @@ metadata:
      serving.kserve.io/s3-useanoncredential: "false" # omitting this is the same as false, if true will ignore provided credential and use anonymous credentials
 type: Opaque
 stringData: # use `stringData` for raw credential string or `data` for base64 encoded string
-  AWS_ACCESS_KEY_ID: AxxxxQxxxxxxxxY2xxx
-  AWS_SECRET_ACCESS_KEY: "C/dGcccuAxxxxxxxx25mxxxxxxx"
+  AWS_ACCESS_KEY_ID: AKXXXXXXXXXXXXXXXXXXXXX
+  AWS_SECRET_ACCESS_KEY: "RQHBUNBSJNINQONUKNUKXXXXXX+XQIWOW"
 
 ---
 
@@ -38,6 +30,29 @@ metadata:
 secrets:
 - name: s3creds
 ```
--------------
 
- kubectl apply -f argo-apps
+- Create the repo before you start and update the repo url in `argo-apps/models.yaml` file
+
+Deployment
+
+```bash
+kubectl apply -f argo-apps
+```
+
+
+**Delete argocd deployments**
+
+Verify app name
+- `kubectl get app -n argocd`
+
+Delete cascade
+- `kubectl patch app model-deployments  -p '{"metadata": {"finalizers": ["resources-finalizer.argocd.argoproj.io"]}}' --type merge -n argocd`
+- `kubectl delete app model-deployments -n argocd`
+
+Deletion
+- `eksctl delete cluster -f eks-cluster.yaml --disable-nodegroup-eviction`
+
+**Wait paitently see all deletion is successfull in aws cloud formation stack page and then close the system because some times
+the deletion gets failed so at backend something would be running and it may cost you high**
+**If you triggering a spot instance manually with `peresistent` type ensure that both the spot request is cancelled manually
+and the AWS instance is terminated finally**
