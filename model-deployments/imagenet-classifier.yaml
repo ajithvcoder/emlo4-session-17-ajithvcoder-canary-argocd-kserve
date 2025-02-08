@@ -8,14 +8,14 @@ metadata:
     autoscaling.knative.dev/target: "1"
 spec:
   predictor:
-    minReplicas: 2
-    maxReplicas: 2
-    containerConcurrency: 2
-    canaryTrafficPercent: 100
+    minReplicas: 1
+    maxReplicas: 1
+    containerConcurrency: 1
+    # canaryTrafficPercent: 30
     serviceAccountName: s3-read-only
     pytorch:
       protocolVersion: v1
-      storageUri: s3://mybucket-emlo-mumbai/kserve-ig/imagenet-m2/
+      storageUri: s3://mybucket-emlo-mumbai/kserve-ig/imagenet-m1/
       # storageUri: s3://tsai-emlo/kserve-ig/fakeimagenet-vit/
       image: pytorch/torchserve-kfs:0.12.0
       resources:
